@@ -6,6 +6,8 @@ output: github_document
 
 ```{r setup, include=FALSE}
 library(tidyverse)
+library(readxl)
+library(haven)
 library(ggridges)
 library(patchwork)
 
@@ -92,4 +94,15 @@ instacart %>%
   spread(key = order_dow, value = mean_hour) %>%
   knitr::kable(digits = 2)
 ```
+
+
+## Problem 2
+
+1. Load the data:
+
+```{r}
+accel_df = read_csv("data/accel_data.csv") %>% 
+  janitor::clean_names()
+```
+
 
