@@ -102,7 +102,11 @@ instacart %>%
 
 ```{r}
 accel_df = read_csv("data/accel_data.csv") %>% 
-  janitor::clean_names()
+  janitor::clean_names() %>% 
+  mutate(
+    
+  )
+
 ```
 
 
