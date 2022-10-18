@@ -161,8 +161,42 @@ library(p8105.datasets)
 data("ny_noaa")
 
 noaa_df = janitor::clean_names(ny_noaa) %>% 
-  separate(date, c("year", "month", "day"), sep = "-") 
+  separate(date, c("year", "month", "day"), sep = "-") %>% 
+  mutate(
+    tmax = as.numeric(tmax),
+    tmin = as.numeric(tmin),
+    month = as.integer(month)
+  )
 ```
+
+
+
+```{r}
+noaa_df %>% 
+  group_by(snow) %>% 
+  summarize(snowfall = n()) %>% 
+  arrange(desc(snowfall))
+```
+The most commonly observed values for snowfall is 0.
+
+#### Make a two-panel plot showing the average max temperature in January and in July in each station across years:
+
+```{r}
+noaa_df %>%
+  filter(month == 1 | month == 7) %>%
+  group_by(month, id, year) %>% 
+  summarize(mean_tmax = mean(tmax, na.rm = TRUE)) %>%
+  ggplot(aes(x = year, y = mean_tmax, color = month)) +
+  geom_point(alpha = .5) +
+  geom_smooth(se = FALSE) +
+  facet_grid(. ~month) +
+  theme(legend.position = "bottom")+
+  labs(x = "Year",
+       y = "Average Max Temperature (C)",
+       title = "Comparison between average Max Temperature in January and July")
+```
+
+```{r}
 
 
 
