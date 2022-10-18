@@ -7,7 +7,6 @@ output: github_document
 ```{r setup, include=FALSE}
 library(tidyverse)
 library(readxl)
-library(haven)
 library(ggridges)
 library(patchwork)
 
@@ -33,9 +32,9 @@ scale_fill_discrete = scale_fill_viridis_d
 ```
 
 
-## Problem 1
+### Problem 1
 
-### Read in the data
+#### Read in the data
 
 ```{r}
 data("instacart")
@@ -45,7 +44,7 @@ instacart =
   as_tibble(instacart)
 ```
 
-### Answer questions about the data
+#### Answer questions about the data
 
 This dataset contains `r nrow(instacart)` rows and `r ncol(instacart)` columns, with each row resprenting a single product from an instacart order. Variables include identifiers for user, order, and product; the order in which each product was added to the cart. There are several order-level variables, describing the day and time of the order, and number of days since prior order. Then there are several item-specific variables, describing the product name (e.g. Yogurt, Avocado), department (e.g. dairy and eggs, produce), and aisle (e.g. yogurt, fresh fruits), and whether the item has been ordered by this user in the past. In total, there are `r instacart %>% select(product_id) %>% distinct %>% count` products found in `r instacart %>% select(user_id, order_id) %>% distinct %>% count` orders from `r instacart %>% select(user_id) %>% distinct %>% count` distinct users.
 
@@ -96,16 +95,26 @@ instacart %>%
 ```
 
 
-## Problem 2
+### Problem 2
 
-1. Load the data:
+#### Load, tidy, wrangle the data:
 
 ```{r}
 accel_df = read_csv("data/accel_data.csv") %>% 
   janitor::clean_names() %>% 
   mutate(
-    
-  )
+    week = as.integer(week),
+    day_id = as.integer(day_id),
+    day = factor(day, levels = c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")),
+    weekday_vs_weekend = as.factor(if_else(day == "Saturday" | day == "Sunday", "weekend", "weekday"))) %>% 
+  pivot_longer(
+    activity_1:activity_1440,
+    names_to = "minutes_of_a_day",
+    values_to = "activity_counts",
+    names_prefix = "activity_") %>% 
+  mutate(minutes_of_a_day = as.integer(minutes_of_a_day))
+
+accel_df
 
 ```
 
