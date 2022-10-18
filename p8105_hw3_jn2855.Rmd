@@ -152,3 +152,17 @@ From this plot, the man tends to be more active on Sunday afternoon and Friday e
 
 
 
+### Problem 3
+
+#### Data cleaning
+
+```{r}
+library(p8105.datasets)
+data("ny_noaa")
+
+noaa_df = janitor::clean_names(ny_noaa) %>% 
+  separate(date, c("year", "month", "day"), sep = "-") 
+```
+
+
+
