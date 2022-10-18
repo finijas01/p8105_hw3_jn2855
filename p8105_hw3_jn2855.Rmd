@@ -118,4 +118,19 @@ accel_df
 
 ```
 
+After I tidied and wrangled the data, the resulting dataset became a 50,400*6 table, including 6 variables ("week", "day_id", "day", "weekday_vs_weekend", "minutes_of_a_day" and "activity_counts") and 50,400 observarions.
+
+#### Aggregate across minutes to create a total activity variable for each day, and create a table showing these totals:
+
+```{r}
+accel_df %>% 
+  group_by(week, day) %>% 
+  summarize(activity_day = sum(activity_counts)) %>% 
+  pivot_wider(
+    names_from = "day",
+    values_from = "activity_day") %>% 
+  knitr::kable(digits = 2)
+```
+
+
 
