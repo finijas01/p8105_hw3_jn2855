@@ -132,5 +132,23 @@ accel_df %>%
   knitr::kable(digits = 2)
 ```
 
+From the table, there's no apparent trend within each week or each day. However, on Saturday in Week 4 and 5, the data is strange and needs further investigation.
+
+#### Make a single-panel plot:
+
+```{r}
+accel_df %>% 
+  ggplot(aes(x = minutes_of_a_day, y = activity_counts, color = day)) +
+  geom_line() +
+  theme(legend.position = "bottom") +
+  labs(
+    title = "24-hour activity time courses for each day",
+    x = "Time (minute)",
+    y = "Activity counts"
+  )
+```
+
+From this plot, the man tends to be more active on Sunday afternoon and Friday evening. However, it seems that the highest activity occurs on Tuesday evening.
+
 
 
